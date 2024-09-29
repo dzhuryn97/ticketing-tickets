@@ -11,9 +11,8 @@ class CreateCustomerCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly CustomerRepositoryInterface $customerRepository,
-        private readonly FlusherInterface $flusher
-    )
-    {
+        private readonly FlusherInterface $flusher,
+    ) {
     }
 
     public function __invoke(CreateCustomerCommand $command)

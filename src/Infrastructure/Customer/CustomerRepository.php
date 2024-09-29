@@ -10,7 +10,6 @@ use Ramsey\Uuid\UuidInterface;
 
 class CustomerRepository extends ServiceEntityRepository implements CustomerRepositoryInterface
 {
-
     private \Doctrine\ORM\EntityManagerInterface $em;
 
     public function __construct(ManagerRegistry $registry)

@@ -9,7 +9,6 @@ use Ramsey\Uuid\UuidInterface;
 
 class OrderRepository extends ServiceEntityRepository implements \App\Domain\Order\OrderRepositoryInterface
 {
-
     private \Doctrine\ORM\EntityManagerInterface $em;
 
     public function __construct(ManagerRegistry $registry)

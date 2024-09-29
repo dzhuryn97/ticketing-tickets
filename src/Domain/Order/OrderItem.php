@@ -3,9 +3,9 @@
 namespace App\Domain\Order;
 
 use App\Domain\Event\TicketType;
+use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
 class OrderItem
@@ -40,18 +40,14 @@ class OrderItem
     #[ORM\Column]
     private string $currency;
 
-
     public function __construct(
         TicketType $ticketType,
-        Order $order,
         int $quantity,
         float $price,
-        string $currency
-    )
-    {
+        string $currency,
+    ) {
         $this->id = Uuid::uuid4();
         $this->ticketType = $ticketType;
-        $this->order = $order;
         $this->quantity = $quantity;
         $this->price = $price;
         $this->totalPrice = $price * $quantity;
@@ -78,4 +74,8 @@ class OrderItem
         return $this->id;
     }
 
+    public function setOrder(Order $order): void
+    {
+        $this->order = $order;
+    }
 }

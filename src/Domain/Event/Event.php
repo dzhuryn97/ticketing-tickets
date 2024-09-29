@@ -2,17 +2,15 @@
 
 namespace App\Domain\Event;
 
-use Doctrine\ORM\Mapping as Mapping;
-use Ramsey\Uuid\Rfc4122\UuidV4;
+use Doctrine\ORM\Mapping;
 use Ramsey\Uuid\UuidInterface;
 use Ticketing\Common\Domain\DomainEntity;
 
 #[Mapping\Entity(
-    repositoryClass: \App\Domain\Event\EventRepositoryInterface::class
+    repositoryClass: EventRepositoryInterface::class
 )]
 class Event extends DomainEntity
 {
-
     #[Mapping\Id]
     #[Mapping\Column(type: 'uuid')]
     private UuidInterface $id;
@@ -30,14 +28,13 @@ class Event extends DomainEntity
     private bool $canceled;
 
     public function __construct(
-        UuidInterface       $eventId,
-        string              $title,
-        string              $description,
-        string              $location,
-        \DateTimeImmutable  $startsAt,
+        UuidInterface $eventId,
+        string $title,
+        string $description,
+        string $location,
+        \DateTimeImmutable $startsAt,
         ?\DateTimeImmutable $endsAt,
-    )
-    {
+    ) {
         $this->id = $eventId;
         $this->title = $title;
         $this->description = $description;
@@ -47,12 +44,10 @@ class Event extends DomainEntity
         $this->canceled = false;
     }
 
-
     public function reschedule(
-        \DateTimeImmutable  $startsAt,
+        \DateTimeImmutable $startsAt,
         ?\DateTimeImmutable $endsAt,
-    ): void
-    {
+    ): void {
         $this->startsAt = $startsAt;
         $this->endsAt = $endsAt;
 
@@ -77,15 +72,19 @@ class Event extends DomainEntity
     {
         $this->raiseDomainEvent(new EventTicketsArchivedDomainEvent($this->id));
     }
-//
-//  public void PaymentsRefunded()
-//  {
-//      Raise(new EventPaymentsRefundedDomainEvent(Id));
-//    }
-//
-//    public void TicketsArchived()
-//    {
-//          Raise(new EventTicketsArchivedDomainEvent(Id));
-//    }
 
+    public function getStartsAt(): \DateTimeImmutable
+    {
+        return $this->startsAt;
+    }
+
+    public function getEndsAt(): ?\DateTimeImmutable
+    {
+        return $this->endsAt;
+    }
+
+    public function getId(): UuidInterface
+    {
+        return $this->id;
+    }
 }

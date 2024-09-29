@@ -6,12 +6,10 @@ use App\Domain\Customer\Customer;
 use App\Domain\Event\Event;
 use App\Domain\Event\TicketType;
 use App\Domain\Order\Order;
+use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Ticketing\Common\Domain\DomainEntity;
-
-use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity(
     repositoryClass: TicketRepositoryInterface::class
@@ -79,7 +77,7 @@ class Ticket extends DomainEntity
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
 
     public function __construct(Order $order, TicketType $ticketType)
@@ -89,13 +87,11 @@ class Ticket extends DomainEntity
         $this->order = $order;
         $this->event = $ticketType->getEvent();
         $this->ticketType = $ticketType;
-        $this->code = 'tc_' . Uuid::uuid4();
+        $this->code = 'tc_'.Uuid::uuid4();
         $this->createdAt = new \DateTimeImmutable();
 
-        $this->raiseDomainEvent(new TicketCreatedDomainEvent($this->id));
-
+        //        $this->raiseDomainEvent(new TicketCreatedDomainEvent($this->id));
     }
-
 
     public function archive(): void
     {

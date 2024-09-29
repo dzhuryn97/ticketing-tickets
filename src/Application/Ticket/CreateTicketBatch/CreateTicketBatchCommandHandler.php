@@ -12,17 +12,17 @@ use Ticketing\Common\Application\FlusherInterface;
 class CreateTicketBatchCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private readonly OrderRepositoryInterface  $orderRepository,
+        private readonly OrderRepositoryInterface $orderRepository,
         private readonly TicketRepositoryInterface $ticketRepository,
-        private readonly FlusherInterface          $flusher
-    )
-    {
+        private readonly FlusherInterface $flusher,
+    ) {
     }
 
     public function __invoke(CreateTicketBatchCommand $command)
     {
-
         $order = $this->orderRepository->findById($command->orderId);
+        // 5 tickets for event Mettalica for zan fon
+
         if (!$order) {
             throw new OrderNotFoundException($command->orderId);
         }
@@ -33,11 +33,13 @@ class CreateTicketBatchCommandHandler implements CommandHandlerInterface
         foreach ($order->getOrderItems() as $orderItem) {
             $ticketType = $orderItem->getTicketType();
 
-
-            for ($i = 0; $i < $orderItem->getQuantity(); $i++) {
+            for ($i = 0; $i < $orderItem->getQuantity(); ++$i) {
                 $tickets[] = new Ticket($order, $ticketType);
+                break;
             }
+            break;
         }
+
         $this->ticketRepository->addBatch($tickets);
         $this->flusher->flush();
     }

@@ -9,21 +9,19 @@ use Ticketing\Common\IntegrationEvent\User\UserCreatedIntegrationEvent;
 
 class UserCreatedIntegrationEventHandler implements IntegrationEventHandlerInterface
 {
-
     public function __construct(
-        private readonly CommandBusInterface $commandBus
-    )
-    {
+        private readonly CommandBusInterface $commandBus,
+    ) {
     }
 
     public function __invoke(UserCreatedIntegrationEvent $event)
     {
-       $this->commandBus->dispatch(
-           new CreateCustomerCommand(
-               $event->userId,
-               $event->name,
-               $event->email,
-           )
-       );
+        $this->commandBus->dispatch(
+            new CreateCustomerCommand(
+                $event->userId,
+                $event->name,
+                $event->email,
+            )
+        );
     }
 }

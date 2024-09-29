@@ -13,7 +13,6 @@ class TicketTypeRequest
         public readonly float $price,
         public readonly string $currency,
         public readonly int $quantity,
-    )
-    {
+    ) {
     }
 }

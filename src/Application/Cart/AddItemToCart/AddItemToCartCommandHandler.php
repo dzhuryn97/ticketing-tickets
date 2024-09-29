@@ -15,19 +15,18 @@ class AddItemToCartCommandHandler implements CommandHandlerInterface
     public function __construct(
         private readonly CustomerRepositoryInterface $customerRepository,
         private readonly TicketTypeRepositoryInterface $ticketTypeRepository,
-        private readonly CartService $cartService
-    )
-    {
+        private readonly CartService $cartService,
+    ) {
     }
 
     public function __invoke(AddItemToCartCommand $command)
     {
         $customer = $this->customerRepository->findById($command->customerId);
-        if(!$customer){
+        if (!$customer) {
             throw new CustomerNotFoundException($command->customerId);
         }
         $ticketType = $this->ticketTypeRepository->findById($command->ticketTypeId);
-        if(!$ticketType){
+        if (!$ticketType) {
             throw new TicketTypeNotFound($command->ticketTypeId);
         }
 
@@ -36,8 +35,7 @@ class AddItemToCartCommandHandler implements CommandHandlerInterface
             $command->quantity,
             $ticketType->getPrice(),
             $ticketType->getCurrency()
-
         );
-        $this->cartService->addItem($customer->getId(),$cartItem);
+        $this->cartService->addItem($customer->getId(), $cartItem);
     }
 }

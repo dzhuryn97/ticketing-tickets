@@ -6,7 +6,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Application\Cart\GetCart\GetCartQuery;
-use Ramsey\Uuid\Rfc4122\UuidV4;
 use Ticketing\Common\Application\Query\QueryBusInterface;
 use Ticketing\Common\Application\Security\Security;
 
@@ -14,9 +13,8 @@ class CartProvider implements ProviderInterface
 {
     public function __construct(
         private readonly QueryBusInterface $queryBus,
-        private readonly Security          $security
-    )
-    {
+        private readonly Security $security,
+    ) {
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -31,7 +29,7 @@ class CartProvider implements ProviderInterface
 
         $cartResource = CartResource::fromCart($cart);
 
-        if($operation instanceof GetCollection){
+        if ($operation instanceof GetCollection) {
             return [$cartResource];
         }
 

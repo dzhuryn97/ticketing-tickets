@@ -7,8 +7,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 class CartItemResource
 {
-
-    #[Groups(['cart-item:add','cart-item:remove'])]
+    #[Groups(['cart-item:add', 'cart-item:remove'])]
     public ?UuidInterface $ticketTypeId;
     public ?int $price;
     #[Groups(['cart-item:add'])]
@@ -17,11 +16,10 @@ class CartItemResource
 
     public function __construct(
         ?UuidInterface $ticketTypeId,
-        ?int           $price,
-        ?int           $quantity,
-        ?string        $currency,
-    )
-    {
+        ?int $price,
+        ?int $quantity,
+        ?string $currency,
+    ) {
         $this->ticketTypeId = $ticketTypeId;
         $this->price = $price;
         $this->quantity = $quantity;

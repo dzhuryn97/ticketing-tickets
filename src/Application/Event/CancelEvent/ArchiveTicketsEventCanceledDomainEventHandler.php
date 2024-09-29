@@ -10,9 +10,8 @@ use Ticketing\Common\Application\DomainEventHandlerInterface;
 class ArchiveTicketsEventCanceledDomainEventHandler implements DomainEventHandlerInterface
 {
     public function __construct(
-        private readonly CommandBusInterface $commandBus
-    )
-    {
+        private readonly CommandBusInterface $commandBus,
+    ) {
     }
 
     public function __invoke(EventCanceledDomainEvent $event)

@@ -9,8 +9,9 @@ interface OrderRepositoryInterface
     /**
      * @return array<Order>
      */
-    public function getAll():array;
-    public function findById(UuidInterface $orderId):?Order;
-    public function add(Order $order): void;
+    public function getAll(): array;
 
+    public function findById(UuidInterface $orderId): ?Order;
+
+    public function add(Order $order): void;
 }

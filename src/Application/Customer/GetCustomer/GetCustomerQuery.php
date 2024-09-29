@@ -8,8 +8,7 @@ use Ticketing\Common\Application\Query\QueryInterface;
 class GetCustomerQuery implements QueryInterface
 {
     public function __construct(
-        public readonly UuidInterface $customerId
-    )
-    {
+        public readonly UuidInterface $customerId,
+    ) {
     }
 }

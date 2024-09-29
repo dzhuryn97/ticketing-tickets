@@ -12,16 +12,14 @@ class CreateTicketsOrderCreatedDomainEventHandler implements DomainEventHandlerI
     private CommandBusInterface $commandBus;
 
     public function __construct(
-        CommandBusInterface $commandBus
-    )
-    {
+        CommandBusInterface $commandBus,
+    ) {
         $this->commandBus = $commandBus;
     }
 
     public function __invoke(
-        OrderCreatedDomainEvent $event
-    )
-    {
+        OrderCreatedDomainEvent $event,
+    ) {
         $this->commandBus->dispatch(
             new CreateTicketBatchCommand($event->orderId)
         );

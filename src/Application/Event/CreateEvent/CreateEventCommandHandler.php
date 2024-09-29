@@ -14,9 +14,8 @@ class CreateEventCommandHandler implements CommandHandlerInterface
     public function __construct(
         private readonly EventRepositoryInterface $eventRepository,
         private readonly TicketTypeRepositoryInterface $ticketTypeRepository,
-        private readonly FlusherInterface $flusher
-    )
-    {
+        private readonly FlusherInterface $flusher,
+    ) {
     }
 
     public function __invoke(CreateEventCommand $command)
@@ -32,7 +31,7 @@ class CreateEventCommandHandler implements CommandHandlerInterface
 
         $this->eventRepository->add($event);
 
-        $ticketTypes = array_map(function (TicketTypeRequest $ticketTypeRequest) use($event){
+        $ticketTypes = array_map(function (TicketTypeRequest $ticketTypeRequest) use ($event) {
             return new TicketType(
                 $ticketTypeRequest->ticketTypeId,
                 $event,
@@ -41,10 +40,9 @@ class CreateEventCommandHandler implements CommandHandlerInterface
                 $ticketTypeRequest->currency,
                 $ticketTypeRequest->quantity,
             );
-        },$command->ticketTypes);
+        }, $command->ticketTypes);
         $this->ticketTypeRepository->addBatch($ticketTypes);
 
         $this->flusher->flush();
-
     }
 }

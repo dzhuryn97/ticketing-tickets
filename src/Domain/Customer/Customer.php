@@ -22,9 +22,8 @@ class Customer extends DomainEntity
     public function __construct(
         UuidInterface $id,
         string $name,
-        string $email
-    )
-    {
+        string $email,
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
@@ -32,12 +31,12 @@ class Customer extends DomainEntity
 
     public function update(
         string $name,
-        string $email
-    )
-    {
+        string $email,
+    ) {
         $this->name = $name;
         $this->email = $email;
     }
+
     public function getId(): UuidInterface
     {
         return $this->id;

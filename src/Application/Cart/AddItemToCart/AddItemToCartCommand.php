@@ -11,7 +11,6 @@ class AddItemToCartCommand implements CommandInterface
         public readonly UuidInterface $customerId,
         public readonly UuidInterface $ticketTypeId,
         public readonly int $quantity,
-    )
-    {
+    ) {
     }
 }

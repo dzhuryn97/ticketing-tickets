@@ -8,19 +8,18 @@ use Ticketing\Common\Application\Query\QueryHandlerInterface;
 
 class GetOrderQueryHandler implements QueryHandlerInterface
 {
-
     public function __construct(
-        private readonly OrderRepositoryInterface $orderRepository
-    )
-    {
+        private readonly OrderRepositoryInterface $orderRepository,
+    ) {
     }
 
     public function __invoke(GetOrderQuery $query)
     {
         $order = $this->orderRepository->findById($query->orderId);
-        if(!$order){
+        if (!$order) {
             throw new OrderNotFoundException($query->orderId);
         }
+
         return $order;
     }
 }

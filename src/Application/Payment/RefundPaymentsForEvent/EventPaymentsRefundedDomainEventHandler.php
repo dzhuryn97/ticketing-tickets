@@ -10,9 +10,8 @@ use Ticketing\Common\IntegrationEvent\Ticket\EventPaymentsRefundedIntegrationEve
 class EventPaymentsRefundedDomainEventHandler implements DomainEventHandlerInterface
 {
     public function __construct(
-        private readonly EventBusInterface $eventBus
-    )
-    {
+        private readonly EventBusInterface $eventBus,
+    ) {
     }
 
     public function __invoke(EventPaymentsRefundedDomainEvent $event)

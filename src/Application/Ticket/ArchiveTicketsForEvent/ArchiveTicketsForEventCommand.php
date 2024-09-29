@@ -8,8 +8,7 @@ use Ticketing\Common\Application\Command\CommandInterface;
 class ArchiveTicketsForEventCommand implements CommandInterface
 {
     public function __construct(
-        public readonly UuidInterface $eventId
-    )
-    {
+        public readonly UuidInterface $eventId,
+    ) {
     }
 }

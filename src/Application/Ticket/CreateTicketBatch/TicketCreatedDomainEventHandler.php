@@ -13,9 +13,8 @@ class TicketCreatedDomainEventHandler implements DomainEventHandlerInterface
 {
     public function __construct(
         private readonly TicketRepositoryInterface $ticketRepository,
-        private readonly EventBusInterface         $eventBus
-    )
-    {
+        private readonly EventBusInterface $eventBus,
+    ) {
     }
 
     public function __invoke(TicketCreatedDomainEvent $event)

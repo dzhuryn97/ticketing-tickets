@@ -10,9 +10,8 @@ use Ticketing\Common\IntegrationEvent\Ticket\EventTicketsArchivedIntegrationEven
 class EventTicketsArchivedDomainEventHandler implements DomainEventHandlerInterface
 {
     public function __construct(
-        private readonly EventBusInterface $eventBus
-    )
-    {
+        private readonly EventBusInterface $eventBus,
+    ) {
     }
 
     public function __invoke(EventTicketsArchivedDomainEvent $event)

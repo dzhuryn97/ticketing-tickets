@@ -10,10 +10,8 @@ class PaymentRefundedDomainEvent extends DomainEvent
     public function __construct(
         public readonly UuidInterface $paymentId,
         public readonly UuidInterface $transactionId,
-        public readonly float         $refundAmount
-
-    )
-    {
+        public readonly float $refundAmount,
+    ) {
         parent::__construct();
     }
 }

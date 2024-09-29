@@ -11,7 +11,6 @@ class UpdateCustomerCommand implements CommandInterface
         public readonly UuidInterface $customerId,
         public readonly string $name,
         public readonly string $email,
-    )
-    {
+    ) {
     }
 }

@@ -11,15 +11,14 @@ class UpdateCustomerCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly CustomerRepositoryInterface $customerRepository,
-        private readonly FlusherInterface $flusher
-    )
-    {
+        private readonly FlusherInterface $flusher,
+    ) {
     }
 
     public function __invoke(UpdateCustomerCommand $command)
     {
         $customer = $this->customerRepository->findById($command->customerId);
-        if(!$customer){
+        if (!$customer) {
             throw new CustomerNotFoundException($command->customerId);
         }
 
@@ -28,6 +27,5 @@ class UpdateCustomerCommandHandler implements CommandHandlerInterface
             $command->email,
         );
         $this->flusher->flush();
-
     }
 }

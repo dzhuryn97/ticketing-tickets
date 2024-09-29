@@ -18,7 +18,6 @@ use Ticketing\Common\Domain\DomainEntity;
 #[ORM\Table('`order`')]
 class Order extends DomainEntity
 {
-
     #[ORM\Id()]
     #[ORM\Column(type: 'uuid')]
     private UuidInterface $id;
@@ -41,7 +40,6 @@ class Order extends DomainEntity
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-
     public function __construct(Customer $customer)
     {
         $this->id = Uuid::uuid4();
@@ -56,19 +54,18 @@ class Order extends DomainEntity
 
     public function addItem(
         TicketType $ticketType,
-        int        $quantity,
-        float      $price,
-        string     $currency
-    ): void
-    {
+        int $quantity,
+        float $price,
+        string $currency,
+    ): void {
         $orderItem = new OrderItem(
             $ticketType,
-            $this,
             $quantity,
             $price,
             $currency
         );
 
+        $orderItem->setOrder($this);
         $this->orderItems->add($orderItem);
 
         $this->totalPrice = array_sum($this->orderItems->map(function (OrderItem $orderItem) {
@@ -79,7 +76,7 @@ class Order extends DomainEntity
 
     public function issueTickets(): void
     {
-        if($this->ticketIssued){
+        if ($this->ticketIssued) {
             throw new TicketsAlreadyIssuedException();
         }
 
@@ -109,7 +106,7 @@ class Order extends DomainEntity
     /**
      * @return array<OrderItem>
      */
-    public function getOrderItems():array
+    public function getOrderItems(): array
     {
         return $this->orderItems->getValues();
     }

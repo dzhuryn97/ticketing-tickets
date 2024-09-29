@@ -7,12 +7,12 @@ use Ramsey\Uuid\UuidInterface;
 
 interface PaymentRepositoryInterface
 {
-    public function findById(UuidInterface $paymentId):?Payment;
+    public function findById(UuidInterface $paymentId): ?Payment;
 
     /**
      * @return array<Payment>
      */
     public function getForEvent(Event $event): array;
 
-    public function add(Payment $payment):void;
+    public function add(Payment $payment): void;
 }

@@ -5,15 +5,12 @@ namespace App\Presenter\Cart;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use App\Application\Cart\Cart;
 use App\Application\Cart\CartItem;
 use App\Presenter\Cart\Processor\AddItemToCartProcessor;
 use App\Presenter\Cart\Processor\ClearCartProcessor;
 use App\Presenter\Cart\Processor\RemoveItemFromCartProcessor;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 #[ApiResource(
@@ -22,7 +19,7 @@ use Ramsey\Uuid\UuidInterface;
         new Get(),
         new Post(
             denormalizationContext: [
-                'groups' => ['cart-item:add']
+                'groups' => ['cart-item:add'],
             ],
             input: CartItemResource::class,
             processor: AddItemToCartProcessor::class,
@@ -33,7 +30,7 @@ use Ramsey\Uuid\UuidInterface;
 
         new Delete(
             denormalizationContext: [
-                'groups' => ['cart-item:remove']
+                'groups' => ['cart-item:remove'],
             ],
             read: true,
             processor: RemoveItemFromCartProcessor::class,
@@ -45,13 +42,12 @@ use Ramsey\Uuid\UuidInterface;
         new Delete(
             read: true,
             processor: ClearCartProcessor::class,
-        )
+        ),
     ],
     provider: CartProvider::class
 )]
 class CartResource
 {
-
     public ?UuidInterface $customerId;
 
     /**
@@ -61,9 +57,8 @@ class CartResource
 
     public function __construct(
         ?UuidInterface $customerId,
-        ?array         $items
-    )
-    {
+        ?array $items,
+    ) {
         $this->customerId = $customerId;
         $this->items = $items;
     }
@@ -76,6 +71,5 @@ class CartResource
                 return CartItemResource::fromCartItem($cartItem);
             })->toArray()
         );
-
     }
 }

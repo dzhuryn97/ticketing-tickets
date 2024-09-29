@@ -7,11 +7,12 @@ use Ramsey\Uuid\UuidInterface;
 
 interface TicketRepositoryInterface
 {
-    public function findById(UuidInterface $ticketId):?Ticket;
+    public function findById(UuidInterface $ticketId): ?Ticket;
+
     /**
      * @return array<Ticket>
      */
-    public function getForEvent(Event $event):array;
+    public function getForEvent(Event $event): array;
 
     /**
      * @param array<Ticket> $tickets

@@ -8,7 +8,7 @@ interface TicketTypeRepositoryInterface
 {
     public function findById(UuidInterface $ticketTypeId): ?TicketType;
 
-    public function findWithLock(UuidInterface $ticketTypeId):?TicketType;
+    public function findWithLock(UuidInterface $ticketTypeId): ?TicketType;
 
     /**
      * @param array<TicketType> $ticketTypes

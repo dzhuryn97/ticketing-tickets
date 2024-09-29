@@ -9,8 +9,7 @@ class RemoveItemFromCartCommand implements CommandInterface
 {
     public function __construct(
         public readonly UuidInterface $customerId,
-        public readonly UuidInterface $ticketTypeId
-    )
-    {
+        public readonly UuidInterface $ticketTypeId,
+    ) {
     }
 }

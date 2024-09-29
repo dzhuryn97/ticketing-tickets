@@ -8,9 +8,8 @@ use Ticketing\Common\Domain\DomainEvent;
 class PaymentCreatedDomainEvent extends DomainEvent
 {
     public function __construct(
-        public readonly UuidInterface $paymentId
-    )
-    {
+        public readonly UuidInterface $paymentId,
+    ) {
         parent::__construct();
     }
 }

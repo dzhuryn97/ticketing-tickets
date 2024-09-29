@@ -15,20 +15,18 @@ use App\Domain\Payment\Payment;
 use App\Domain\Payment\PaymentRepositoryInterface;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
 use Ticketing\Common\Application\FlusherInterface;
-use Ticketing\Common\Infrastructure\Flusher;
 
 class CreateOrderCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private readonly CustomerRepositoryInterface   $customerRepository,
-        private readonly OrderRepositoryInterface      $orderRepository,
+        private readonly CustomerRepositoryInterface $customerRepository,
+        private readonly OrderRepositoryInterface $orderRepository,
         private readonly TicketTypeRepositoryInterface $ticketTypeRepository,
-        private readonly PaymentRepositoryInterface    $paymentRepository,
-        private readonly PaymentServiceInterface       $paymentService,
-        private readonly CartService                   $cartService,
-        private readonly FlusherInterface              $flusher
-    )
-    {
+        private readonly PaymentRepositoryInterface $paymentRepository,
+        private readonly PaymentServiceInterface $paymentService,
+        private readonly CartService $cartService,
+        private readonly FlusherInterface $flusher,
+    ) {
     }
 
     public function __invoke(CreateOrderCommand $command)
@@ -61,7 +59,6 @@ class CreateOrderCommandHandler implements CommandHandlerInterface
 
         $this->orderRepository->add($order);
 
-
         $paymentResponse = $this->paymentService->charge($order->getTotalPrice(), $order->getCurrency());
 
         $payment = new Payment(
@@ -74,7 +71,7 @@ class CreateOrderCommandHandler implements CommandHandlerInterface
         $this->paymentRepository->add($payment);
 
         $this->flusher->flush();
-        $this->flusher->commit();;
+        $this->flusher->commit();
 
         $this->cartService->clear($customer->getId());
 

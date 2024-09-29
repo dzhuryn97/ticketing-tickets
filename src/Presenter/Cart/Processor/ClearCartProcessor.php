@@ -13,13 +13,11 @@ use Ticketing\Common\Application\Security\Security;
 
 class ClearCartProcessor implements ProcessorInterface
 {
-
     public function __construct(
         private readonly CommandBusInterface $commandBus,
         private readonly QueryBusInterface $queryBus,
-        private readonly Security $security
-    )
-    {
+        private readonly Security $security,
+    ) {
     }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
@@ -42,8 +40,6 @@ class ClearCartProcessor implements ProcessorInterface
 
         $cartResource = CartResource::fromCart($cart);
 
-
         return $cartResource;
-
     }
 }

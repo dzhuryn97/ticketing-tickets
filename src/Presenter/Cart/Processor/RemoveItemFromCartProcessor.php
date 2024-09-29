@@ -14,13 +14,11 @@ use Ticketing\Common\Application\Security\Security;
 
 class RemoveItemFromCartProcessor implements ProcessorInterface
 {
-
     public function __construct(
         private readonly CommandBusInterface $commandBus,
         private readonly QueryBusInterface $queryBus,
-        private readonly Security            $security
-    )
-    {
+        private readonly Security $security,
+    ) {
     }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
@@ -41,6 +39,7 @@ class RemoveItemFromCartProcessor implements ProcessorInterface
                 $customer->id
             )
         );
+
         return CartResource::fromCart($cart);
     }
 }

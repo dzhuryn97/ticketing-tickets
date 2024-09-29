@@ -10,15 +10,13 @@ use Ticketing\Common\IntegrationEvent\User\UserUpdatedIntegrationEvent;
 class UserUpdatedIntegrationEventHandler implements IntegrationEventHandlerInterface
 {
     public function __construct(
-        private readonly CommandBusInterface $commandBus
-    )
-    {
+        private readonly CommandBusInterface $commandBus,
+    ) {
     }
 
     public function __invoke(
-        UserUpdatedIntegrationEvent $event
-    )
-    {
+        UserUpdatedIntegrationEvent $event,
+    ) {
         $this->commandBus->dispatch(
             new UpdateCustomerCommand(
                 $event->userId,

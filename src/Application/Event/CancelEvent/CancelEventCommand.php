@@ -8,8 +8,7 @@ use Ticketing\Common\Application\Command\CommandInterface;
 class CancelEventCommand implements CommandInterface
 {
     public function __construct(
-        public readonly UuidInterface $eventId
-    )
-    {
+        public readonly UuidInterface $eventId,
+    ) {
     }
 }

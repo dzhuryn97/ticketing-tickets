@@ -9,13 +9,11 @@ class OrderItemResource
     public function __construct(
         public ?UuidInterface $id,
         public ?UuidInterface $ticketTypeId,
-        public ?int           $quantity,
-        public ?float         $price,
-        public ?float         $totalPrice,
-        public ?string        $currency
-
-    )
-    {
+        public ?int $quantity,
+        public ?float $price,
+        public ?float $totalPrice,
+        public ?string $currency,
+    ) {
     }
 
     public static function fromOrderItem(\App\Domain\Order\OrderItem $orderItem): self

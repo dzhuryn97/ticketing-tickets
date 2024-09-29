@@ -12,9 +12,8 @@ use Ticketing\Common\IntegrationEvent\Event\TicketTypeModel;
 class EventPublishedIntegrationEventHandler implements IntegrationEventHandlerInterface
 {
     public function __construct(
-        private readonly CommandBusInterface $commandBus
-    )
-    {
+        private readonly CommandBusInterface $commandBus,
+    ) {
     }
 
     public function __invoke(EventPublishedIntegrationEvent $event)
@@ -27,7 +26,7 @@ class EventPublishedIntegrationEventHandler implements IntegrationEventHandlerIn
                 $event->location,
                 $event->startsAt,
                 $event->endsAt,
-                array_map(function (TicketTypeModel $ticketTypeModel){
+                array_map(function (TicketTypeModel $ticketTypeModel) {
                     return new TicketTypeRequest(
                         $ticketTypeModel->id,
                         $ticketTypeModel->eventId,
@@ -36,7 +35,7 @@ class EventPublishedIntegrationEventHandler implements IntegrationEventHandlerIn
                         $ticketTypeModel->currency,
                         $ticketTypeModel->quantity,
                     );
-                },$event->ticketsType)
+                }, $event->ticketsType)
             )
         );
     }

@@ -17,11 +17,9 @@ class Cart
 
     public function __construct(
         UuidInterface $customerId,
-        array $items = []
-    )
-    {
+        array $items = [],
+    ) {
         $this->customerId = $customerId;
         $this->items = new ArrayCollection($items);
     }
-
 }

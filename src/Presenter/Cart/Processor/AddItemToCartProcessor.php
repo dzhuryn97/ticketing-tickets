@@ -14,13 +14,11 @@ use Ticketing\Common\Application\Security\Security;
 
 class AddItemToCartProcessor implements ProcessorInterface
 {
-
     public function __construct(
         private readonly CommandBusInterface $commandBus,
         private readonly QueryBusInterface $queryBus,
-        private readonly Security $security
-    )
-    {
+        private readonly Security $security,
+    ) {
     }
 
     /**
@@ -43,6 +41,7 @@ class AddItemToCartProcessor implements ProcessorInterface
                 $customer->id
             )
         );
+
         return CartResource::fromCart($cart);
     }
 }

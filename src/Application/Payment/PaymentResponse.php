@@ -8,9 +8,8 @@ class PaymentResponse
 {
     public function __construct(
         public readonly UuidInterface $transactionId,
-        public readonly float         $amount,
-        public readonly string        $currency
-    )
-    {
+        public readonly float $amount,
+        public readonly string $currency,
+    ) {
     }
 }

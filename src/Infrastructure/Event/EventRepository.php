@@ -20,7 +20,7 @@ class EventRepository extends ServiceEntityRepository implements EventRepository
 
     public function findById(UuidInterface $eventId): ?Event
     {
-        return  $this->find($eventId);
+        return $this->find($eventId);
     }
 
     public function add(Event $event): void

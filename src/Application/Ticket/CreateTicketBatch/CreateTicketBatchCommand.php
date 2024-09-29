@@ -8,8 +8,7 @@ use Ticketing\Common\Application\Command\CommandInterface;
 class CreateTicketBatchCommand implements CommandInterface
 {
     public function __construct(
-        public readonly UuidInterface $orderId
-    )
-    {
+        public readonly UuidInterface $orderId,
+    ) {
     }
 }

@@ -13,7 +13,6 @@ use Ticketing\Common\Domain\DomainEntity;
 #[ORM\Entity]
 class Payment extends DomainEntity
 {
-
     #[ORM\Id]
     #[ORM\Column(type: 'uuid')]
     public UuidInterface $id;
@@ -33,20 +32,19 @@ class Payment extends DomainEntity
     #[ORM\Column(nullable: true)]
     public ?\DateTimeImmutable $refundedAt;
 
-
     public function __construct(
         Order $order,
         UuidInterface $transactionId,
         float $amount,
-        string $currency
-    )
-    {
+        string $currency,
+    ) {
         $this->id = Uuid::uuid4();
         $this->order = $order;
         $this->transactionId = $transactionId;
         $this->amount = $amount;
         $this->currency = $currency;
         $this->createdAt = new \DateTimeImmutable();
+        $this->amountRefunded = null;
 
         $this->raiseDomainEvent(new PaymentCreatedDomainEvent($this->id));
     }
@@ -68,9 +66,15 @@ class Payment extends DomainEntity
         } else {
             $this->raiseDomainEvent(new PaymentPartiallyRefundedDomainEvent($this->id, $this->transactionId, $refundAmount));
         }
-
-
     }
 
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
 
+    public function getCurrency(): string
+    {
+        return $this->currency;
+    }
 }

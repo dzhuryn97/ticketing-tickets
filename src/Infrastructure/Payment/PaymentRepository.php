@@ -10,7 +10,6 @@ use Ramsey\Uuid\UuidInterface;
 
 class PaymentRepository extends ServiceEntityRepository implements \App\Domain\Payment\PaymentRepositoryInterface
 {
-
     private \Doctrine\ORM\EntityManagerInterface $em;
 
     public function __construct(ManagerRegistry $registry)
@@ -21,26 +20,22 @@ class PaymentRepository extends ServiceEntityRepository implements \App\Domain\P
 
     public function findById(UuidInterface $paymentId): ?Payment
     {
-        return  $this->find($paymentId);
+        return $this->find($paymentId);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getForEvent(Event $event): array
     {
         $qb = $this->createQueryBuilder('p');
 
         return $qb
-            ->join('p.order','o')
-            ->join('o.orderItems','oa')
-            ->join('oa.ticketType','tt')
+            ->join('p.order', 'o')
+            ->join('o.orderItems', 'oa')
+            ->join('oa.ticketType', 'tt')
             ->where('tt.event = :event')
             ->setParameter('event', $event)
             ->getQuery()
             ->getResult()
         ;
-
     }
 
     public function add(Payment $payment): void

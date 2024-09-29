@@ -30,13 +30,12 @@ class TicketType extends DomainEntity
 
     public function __construct(
         UuidInterface $id,
-        Event         $event,
-        string        $name,
-        float         $price,
-        string        $currency,
-        int           $quantity,
-    )
-    {
+        Event $event,
+        string $name,
+        float $price,
+        string $currency,
+        int $quantity,
+    ) {
         $this->id = $id;
         $this->event = $event;
         $this->name = $name;
@@ -59,7 +58,7 @@ class TicketType extends DomainEntity
 
         $this->availableQuantity -= $quantity;
 
-        if ($this->availableQuantity == 0) {
+        if (0 == $this->availableQuantity) {
             $this->raiseDomainEvent(new TicketTypeSoldOutDomainEvent($this->id));
         }
     }
@@ -82,5 +81,10 @@ class TicketType extends DomainEntity
     public function getEvent(): Event
     {
         return $this->event;
+    }
+
+    public function getAvailableQuantity(): int
+    {
+        return $this->availableQuantity;
     }
 }

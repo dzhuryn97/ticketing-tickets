@@ -7,19 +7,18 @@ use Ticketing\Common\Application\Caching\CacheInterface;
 
 class CartService
 {
-
     private CacheInterface $cache;
 
     public function __construct(
-        CacheInterface $cache
-    )
-    {
+        CacheInterface $cache,
+    ) {
         $this->cache = $cache;
     }
 
     public function getCart(UuidInterface $customerId): Cart
     {
         $key = $this->generateCacheKey($customerId);
+
         return $this->cache->find($key) ?? $this->createDefault($customerId);
     }
 
@@ -60,14 +59,12 @@ class CartService
         $this->cache->set($cacheKey, $cart);
     }
 
-
     public function clear(UuidInterface $customerId): void
     {
         $cacheKey = sprintf('cart-%s', $customerId);
         $cart = $this->createDefault($customerId);
         $this->cache->set($cacheKey, $cart);
     }
-
 
     private function generateCacheKey(UuidInterface $customerId)
     {

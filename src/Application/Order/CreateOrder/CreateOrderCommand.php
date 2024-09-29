@@ -8,8 +8,7 @@ use Ticketing\Common\Application\Command\CommandInterface;
 class CreateOrderCommand implements CommandInterface
 {
     public function __construct(
-        public readonly UuidInterface $customerId
-    )
-    {
+        public readonly UuidInterface $customerId,
+    ) {
     }
 }
