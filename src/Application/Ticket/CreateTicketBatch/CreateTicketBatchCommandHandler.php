@@ -21,8 +21,6 @@ class CreateTicketBatchCommandHandler implements CommandHandlerInterface
     public function __invoke(CreateTicketBatchCommand $command)
     {
         $order = $this->orderRepository->findById($command->orderId);
-        // 5 tickets for event Mettalica for zan fon
-
         if (!$order) {
             throw new OrderNotFoundException($command->orderId);
         }

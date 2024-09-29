@@ -2,7 +2,7 @@
 
 namespace App\Application\Event\CancelEvent;
 
-use App\Application\Ticket\RefundPaymentsForEvent\RefundPaymentsForEventCommand;
+use App\Application\Payment\RefundPaymentsForEvent\RefundPaymentsForEventCommand;
 use App\Domain\Event\EventCanceledDomainEvent;
 use Ticketing\Common\Application\Command\CommandBusInterface;
 use Ticketing\Common\Application\DomainEventHandlerInterface;

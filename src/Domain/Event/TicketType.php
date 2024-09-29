@@ -2,7 +2,7 @@
 
 namespace App\Domain\Event;
 
-use App\Domain\Event\Exception\TicketTypeNotEnoughQuantity;
+use App\Domain\Event\Exception\TicketTypeNotEnoughQuantityException;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Ticketing\Common\Domain\DomainEntity;
@@ -53,7 +53,7 @@ class TicketType extends DomainEntity
     public function updateQuantity(int $quantity): void
     {
         if ($this->availableQuantity < $quantity) {
-            throw new TicketTypeNotEnoughQuantity($this->availableQuantity);
+            throw new TicketTypeNotEnoughQuantityException($this->availableQuantity);
         }
 
         $this->availableQuantity -= $quantity;

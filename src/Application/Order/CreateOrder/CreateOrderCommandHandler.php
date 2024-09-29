@@ -7,7 +7,7 @@ use App\Application\Cart\Exception\CartIsEmptyException;
 use App\Application\Payment\PaymentServiceInterface;
 use App\Domain\Customer\CustomerRepositoryInterface;
 use App\Domain\Customer\Exception\CustomerNotFoundException;
-use App\Domain\Event\Exception\TicketTypeNotFound;
+use App\Domain\Event\Exception\TicketTypeNotFoundException;
 use App\Domain\Event\TicketTypeRepositoryInterface;
 use App\Domain\Order\Order;
 use App\Domain\Order\OrderRepositoryInterface;
@@ -49,7 +49,7 @@ class CreateOrderCommandHandler implements CommandHandlerInterface
         foreach ($cart->items as $cartItem) {
             $ticketType = $this->ticketTypeRepository->findWithLock($cartItem->ticketTypeId);
             if (!$ticketType) {
-                throw new TicketTypeNotFound($cartItem->ticketTypeId);
+                throw new TicketTypeNotFoundException($cartItem->ticketTypeId);
             }
 
             $ticketType->updateQuantity($cartItem->quantity);

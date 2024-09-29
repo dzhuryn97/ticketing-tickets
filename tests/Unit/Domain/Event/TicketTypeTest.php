@@ -3,7 +3,7 @@
 namespace App\Tests\Unit\Domain\Event;
 
 use App\Domain\Event\Event;
-use App\Domain\Event\Exception\TicketTypeNotEnoughQuantity;
+use App\Domain\Event\Exception\TicketTypeNotEnoughQuantityException;
 use App\Domain\Event\TicketType;
 use App\Domain\Event\TicketTypeSoldOutDomainEvent;
 use App\Tests\Unit\AbstractTestCase;
@@ -35,7 +35,7 @@ class TicketTypeTest extends AbstractTestCase
         );
 
         // Act
-        $this->expectException(TicketTypeNotEnoughQuantity::class);
+        $this->expectException(TicketTypeNotEnoughQuantityException::class);
         $ticketType->updateQuantity(11);
     }
 

@@ -2,10 +2,15 @@
 
 namespace App\Domain\Order\Exception;
 
-class TicketsAlreadyIssuedException extends \DomainException
+use Ticketing\Common\Domain\Exception\BusinessException;
+
+class TicketsAlreadyIssuedException extends BusinessException
 {
     public function __construct()
     {
-        parent::__construct('The tickets for this order were already issued');
+        parent::__construct(
+            'The tickets for this order were already issued',
+            'TicketsAlreadyIssued'
+        );
     }
 }

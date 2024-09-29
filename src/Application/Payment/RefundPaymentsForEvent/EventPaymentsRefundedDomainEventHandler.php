@@ -23,6 +23,5 @@ class EventPaymentsRefundedDomainEventHandler implements DomainEventHandlerInter
                 $event->eventId
             )
         );
-        // TODO: Implement __invoke() method.
     }
 }

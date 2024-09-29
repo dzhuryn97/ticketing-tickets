@@ -5,7 +5,7 @@ namespace App\Application\Cart\RemoveItemFromCart;
 use App\Application\Cart\CartService;
 use App\Domain\Customer\CustomerRepositoryInterface;
 use App\Domain\Customer\Exception\CustomerNotFoundException;
-use App\Domain\Event\Exception\TicketTypeNotFound;
+use App\Domain\Event\Exception\TicketTypeNotFoundException;
 use App\Domain\Event\TicketTypeRepositoryInterface;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
 
@@ -26,7 +26,7 @@ class RemoveItemFromCartCommandHandler implements CommandHandlerInterface
         }
         $ticketType = $this->ticketTypeRepository->findById($command->ticketTypeId);
         if (!$ticketType) {
-            throw new TicketTypeNotFound($command->ticketTypeId);
+            throw new TicketTypeNotFoundException($command->ticketTypeId);
         }
 
         $this->cartService->removeItem($customer->getId(), $ticketType->getId());
