@@ -28,10 +28,16 @@ class TicketRepository extends ServiceEntityRepository implements \App\Domain\Ti
         foreach ($tickets as $ticket) {
             $this->em->persist($ticket);
         }
+        $this->em->flush();
     }
 
     public function findById(UuidInterface $ticketId): ?Ticket
     {
         return $this->find($ticketId);
+    }
+
+    public function save(Ticket $ticket): void
+    {
+        $this->em->flush();
     }
 }

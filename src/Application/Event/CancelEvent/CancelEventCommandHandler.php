@@ -5,13 +5,11 @@ namespace App\Application\Event\CancelEvent;
 use App\Domain\Event\EventRepositoryInterface;
 use App\Domain\Event\Exception\EventNotFoundException;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
-use Ticketing\Common\Application\FlusherInterface;
 
 class CancelEventCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly EventRepositoryInterface $eventRepository,
-        private readonly FlusherInterface $flusher,
     ) {
     }
 
@@ -22,6 +20,6 @@ class CancelEventCommandHandler implements CommandHandlerInterface
             throw new EventNotFoundException($command->eventId);
         }
         $event->cancel();
-        $this->flusher->flush();
+        $this->eventRepository->save($event);
     }
 }

@@ -5,13 +5,11 @@ namespace App\Application\Customer\CreateCustomer;
 use App\Domain\Customer\Customer;
 use App\Domain\Customer\CustomerRepositoryInterface;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
-use Ticketing\Common\Application\FlusherInterface;
 
 class CreateCustomerCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly CustomerRepositoryInterface $customerRepository,
-        private readonly FlusherInterface $flusher,
     ) {
     }
 
@@ -24,7 +22,6 @@ class CreateCustomerCommandHandler implements CommandHandlerInterface
         );
 
         $this->customerRepository->add($customer);
-        $this->flusher->flush();
 
         return $customer->getId();
     }

@@ -29,6 +29,8 @@ class TicketTypeRepository extends ServiceEntityRepository implements TicketType
         foreach ($ticketTypes as $ticketType) {
             $this->em->persist($ticketType);
         }
+
+        $this->em->flush();
     }
 
     public function findWithLock(UuidInterface $ticketTypeId): ?TicketType
@@ -40,5 +42,10 @@ class TicketTypeRepository extends ServiceEntityRepository implements TicketType
             ->getQuery()
             ->setLockMode(LockMode::PESSIMISTIC_WRITE)
             ->getOneOrNullResult();
+    }
+
+    public function save(TicketType $ticketType): void
+    {
+        $this->em->flush();
     }
 }

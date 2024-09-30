@@ -8,5 +8,7 @@ interface CustomerRepositoryInterface
 {
     public function add(Customer $customer): void;
 
+    public function save(Customer $customer): void;
+
     public function findById(UuidInterface $customerId): ?Customer;
 }

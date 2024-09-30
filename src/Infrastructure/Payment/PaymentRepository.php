@@ -41,5 +41,11 @@ class PaymentRepository extends ServiceEntityRepository implements \App\Domain\P
     public function add(Payment $payment): void
     {
         $this->em->persist($payment);
+        $this->em->flush();
+    }
+
+    public function save(Payment $payment): void
+    {
+        $this->em->flush();
     }
 }

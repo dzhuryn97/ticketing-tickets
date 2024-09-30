@@ -5,13 +5,11 @@ namespace App\Application\Customer\UpdateCustomer;
 use App\Domain\Customer\CustomerRepositoryInterface;
 use App\Domain\Customer\Exception\CustomerNotFoundException;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
-use Ticketing\Common\Application\FlusherInterface;
 
 class UpdateCustomerCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly CustomerRepositoryInterface $customerRepository,
-        private readonly FlusherInterface $flusher,
     ) {
     }
 
@@ -26,6 +24,7 @@ class UpdateCustomerCommandHandler implements CommandHandlerInterface
             $command->name,
             $command->email,
         );
-        $this->flusher->flush();
+
+        $this->customerRepository->save($customer);
     }
 }

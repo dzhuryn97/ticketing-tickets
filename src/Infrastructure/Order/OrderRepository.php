@@ -25,10 +25,16 @@ class OrderRepository extends ServiceEntityRepository implements \App\Domain\Ord
     public function add(Order $order): void
     {
         $this->em->persist($order);
+        $this->em->flush();
     }
 
     public function getAll(): array
     {
         return $this->findAll();
+    }
+
+    public function save(Order $order): void
+    {
+        $this->em->flush();
     }
 }

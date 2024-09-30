@@ -9,4 +9,6 @@ interface EventRepositoryInterface
     public function findById(UuidInterface $eventId): ?Event;
 
     public function add(Event $event): void;
+
+    public function save(Event $event): void;
 }

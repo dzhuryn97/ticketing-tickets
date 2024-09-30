@@ -90,7 +90,7 @@ class Ticket extends DomainEntity
         $this->code = 'tc_'.Uuid::uuid4();
         $this->createdAt = new \DateTimeImmutable();
 
-        //        $this->raiseDomainEvent(new TicketCreatedDomainEvent($this->id));
+        $this->raiseDomainEvent(new TicketCreatedDomainEvent($this->id));
     }
 
     public function archive(): void

@@ -21,6 +21,12 @@ class CustomerRepository extends ServiceEntityRepository implements CustomerRepo
     public function add(Customer $customer): void
     {
         $this->em->persist($customer);
+        $this->em->flush();
+    }
+
+    public function save(Customer $customer): void
+    {
+        $this->em->flush();
     }
 
     public function findById(UuidInterface $customerId): ?Customer

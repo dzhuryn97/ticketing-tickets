@@ -7,14 +7,12 @@ use App\Domain\Event\EventRepositoryInterface;
 use App\Domain\Event\TicketType;
 use App\Domain\Event\TicketTypeRepositoryInterface;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
-use Ticketing\Common\Application\FlusherInterface;
 
 class CreateEventCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private readonly EventRepositoryInterface $eventRepository,
         private readonly TicketTypeRepositoryInterface $ticketTypeRepository,
-        private readonly FlusherInterface $flusher,
     ) {
     }
 
@@ -41,8 +39,7 @@ class CreateEventCommandHandler implements CommandHandlerInterface
                 $ticketTypeRequest->quantity,
             );
         }, $command->ticketTypes);
-        $this->ticketTypeRepository->addBatch($ticketTypes);
 
-        $this->flusher->flush();
+        $this->ticketTypeRepository->addBatch($ticketTypes);
     }
 }

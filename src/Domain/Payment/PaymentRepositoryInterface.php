@@ -15,4 +15,6 @@ interface PaymentRepositoryInterface
     public function getForEvent(Event $event): array;
 
     public function add(Payment $payment): void;
+
+    public function save(Payment $payment): void;
 }

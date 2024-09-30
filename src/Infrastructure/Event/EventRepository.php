@@ -26,5 +26,11 @@ class EventRepository extends ServiceEntityRepository implements EventRepository
     public function add(Event $event): void
     {
         $this->em->persist($event);
+        $this->em->flush();
+    }
+
+    public function save(Event $event): void
+    {
+        $this->em->flush();
     }
 }

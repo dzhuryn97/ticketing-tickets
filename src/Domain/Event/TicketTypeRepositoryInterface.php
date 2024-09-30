@@ -14,4 +14,6 @@ interface TicketTypeRepositoryInterface
      * @param array<TicketType> $ticketTypes
      */
     public function addBatch(array $ticketTypes): void;
+
+    public function save(TicketType $ticketType): void;
 }

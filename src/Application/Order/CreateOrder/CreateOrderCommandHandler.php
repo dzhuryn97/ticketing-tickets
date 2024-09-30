@@ -14,7 +14,7 @@ use App\Domain\Order\OrderRepositoryInterface;
 use App\Domain\Payment\Payment;
 use App\Domain\Payment\PaymentRepositoryInterface;
 use Ticketing\Common\Application\Command\CommandHandlerInterface;
-use Ticketing\Common\Application\FlusherInterface;
+use Ticketing\Common\Application\UnitOfWork;
 
 class CreateOrderCommandHandler implements CommandHandlerInterface
 {
@@ -25,26 +25,25 @@ class CreateOrderCommandHandler implements CommandHandlerInterface
         private readonly PaymentRepositoryInterface $paymentRepository,
         private readonly PaymentServiceInterface $paymentService,
         private readonly CartService $cartService,
-        private readonly FlusherInterface $flusher,
+        private readonly UnitOfWork $unitOfWork,
     ) {
     }
 
     public function __invoke(CreateOrderCommand $command)
     {
-        $this->flusher->beginTransaction();
+        $this->unitOfWork->beginTransaction();
 
         $customer = $this->customerRepository->findById($command->customerId);
-
         if (!$customer) {
             throw new CustomerNotFoundException($command->customerId);
         }
-
-        $order = new Order($customer);
 
         $cart = $this->cartService->getCart($command->customerId);
         if ($cart->items->isEmpty()) {
             throw new CartIsEmptyException();
         }
+
+        $order = new Order($customer);
 
         foreach ($cart->items as $cartItem) {
             $ticketType = $this->ticketTypeRepository->findWithLock($cartItem->ticketTypeId);
@@ -60,18 +59,16 @@ class CreateOrderCommandHandler implements CommandHandlerInterface
         $this->orderRepository->add($order);
 
         $paymentResponse = $this->paymentService->charge($order->getTotalPrice(), $order->getCurrency());
-
         $payment = new Payment(
             $order,
             $paymentResponse->transactionId,
             $paymentResponse->amount,
             $paymentResponse->currency,
         );
-
         $this->paymentRepository->add($payment);
 
-        $this->flusher->flush();
-        $this->flusher->commit();
+
+        $this->unitOfWork->commit();
 
         $this->cartService->clear($customer->getId());
 
