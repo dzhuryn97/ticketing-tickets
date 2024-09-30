@@ -2,3 +2,4 @@ doctrine:
     orm:
         controller_resolver:
             auto_mapping: true
+            enabled: false

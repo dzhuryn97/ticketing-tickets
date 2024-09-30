@@ -60,7 +60,6 @@ class Event extends DomainEntity
             return;
         }
         $this->canceled = true;
-        dump('raise EventCanceledDomainEvent');
         $this->raiseDomainEvent(new EventCanceledDomainEvent($this->id));
     }
 

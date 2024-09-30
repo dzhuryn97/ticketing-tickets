@@ -18,32 +18,33 @@ use Ramsey\Uuid\UuidInterface;
     operations: [
         new Get(),
         new Post(
+            openapiContext: [
+                'summary' => 'Add item to cart',
+            ],
             denormalizationContext: [
                 'groups' => ['cart-item:add'],
             ],
             input: CartItemResource::class,
             processor: AddItemToCartProcessor::class,
-            openapiContext: [
-                'summary' => 'Add item to cart',
-            ],
         ),
 
         new Delete(
+            uriTemplate: 'carts/{ticketTypeId}',
+            openapiContext: [
+                'summary' => 'Remove item from cart',
+            ],
             denormalizationContext: [
                 'groups' => ['cart-item:remove'],
             ],
             read: true,
             processor: RemoveItemFromCartProcessor::class,
-            uriTemplate: 'carts/{ticketTypeId}',
-            openapiContext: [
-                'summary' => 'Remove item from cart',
-            ],
         ),
         new Delete(
             read: true,
             processor: ClearCartProcessor::class,
         ),
     ],
+    security: "is_granted('ROLE_USER')",
     provider: CartProvider::class
 )]
 class CartResource
