@@ -12,8 +12,8 @@ use Ramsey\Uuid\Uuid;
 
 class TicketTypeTest extends AbstractTestCase
 {
-    #[Test]
-    public function UpdateQuantity_ShouldFail_WhenQuantityNotEnough()
+    /** @test */
+    public function updateQuantityShouldFailWhenQuantityNotEnough()
     {
         // Arrange
         $event = new Event(
@@ -39,8 +39,8 @@ class TicketTypeTest extends AbstractTestCase
         $ticketType->updateQuantity(11);
     }
 
-    #[Test]
-    public function UpdateQuantity_ShouldRaiseDomainEvent_WhenAvailableQuantityEnded()
+    /** @test */
+    public function updateQuantityShouldRaiseDomainEventWhenAvailableQuantityEnded()
     {
         // Arrange
         $event = new Event(
@@ -68,8 +68,8 @@ class TicketTypeTest extends AbstractTestCase
         $this->assertDomainEventRaised($ticketType, TicketTypeSoldOutDomainEvent::class);
     }
 
-    #[Test]
-    public function UpdateQuantity_ShouldSuccess()
+    /** @test */
+    public function updateQuantityShouldSuccess()
     {
         // Arrange
         $event = new Event(

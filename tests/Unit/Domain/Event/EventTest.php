@@ -11,8 +11,8 @@ use Ramsey\Uuid\Uuid;
 
 class EventTest extends AbstractTestCase
 {
-    #[Test]
-    public function Reschedule_ShouldSuccess()
+    /** @test */
+    public function rescheduleShouldSuccess()
     {
         // Arrange
         $event = new Event(
@@ -36,8 +36,8 @@ class EventTest extends AbstractTestCase
         $this->assertDomainEventRaised($event, EventRescheduledDomainEvent::class);
     }
 
-    #[Test]
-    public function Cancel_ShouldSuccess()
+    /** @test */
+    public function cancelShouldSuccess()
     {
         // Arrange
         $event = new Event(

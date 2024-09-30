@@ -13,8 +13,8 @@ use Ramsey\Uuid\Uuid;
 
 class OrderTest extends AbstractTestCase
 {
-    #[Test]
-    public function Create_Success()
+    /** @test */
+    public function createSuccess()
     {
         // Arrange
         $customer = new Customer(
@@ -32,8 +32,8 @@ class OrderTest extends AbstractTestCase
         $this->assertDomainEventRaised($order, OrderCreatedDomainEvent::class);
     }
 
-    #[Test]
-    public function AddItem_Success()
+    /** @test */
+    public function addItemSuccess()
     {
         // Arrange
         $customer = new Customer(

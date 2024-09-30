@@ -17,8 +17,8 @@ use Ramsey\Uuid\Uuid;
 #[CoversClass(Ticket::class)]
 class TicketTest extends AbstractTestCase
 {
-    #[Test]
-    public function Create_Success()
+    /** @test */
+    public function createSuccess()
     {
         // Arrange
         $customer = new Customer(
@@ -58,8 +58,8 @@ class TicketTest extends AbstractTestCase
         $this->assertNotEmpty($ticket->getCode());
     }
 
-    #[Test]
-    public function Archive_Success()
+    /** @test */
+    public function archiveSuccess()
     {
         // Arrange
         $customer = new Customer(

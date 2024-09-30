@@ -16,8 +16,8 @@ use Ramsey\Uuid\Uuid;
 
 class PaymentTest extends AbstractTestCase
 {
-    #[Test]
-    public function Create_Success()
+    /** @test */
+    public function createSuccess()
     {
         // Arrange
         $customer = new Customer(
@@ -41,8 +41,8 @@ class PaymentTest extends AbstractTestCase
         $this->assertDomainEventRaised($payment, PaymentCreatedDomainEvent::class);
     }
 
-    #[Test]
-    public function Refund_ShouldRaisePaymentRefunded_WhenRefundFullPrice()
+    /** @test */
+    public function refundShouldRaisePaymentRefundedWhenRefundFullPrice()
     {
         // Arrange
         $customer = new Customer(
@@ -69,8 +69,8 @@ class PaymentTest extends AbstractTestCase
         $this->assertDomainEventRaised($payment, PaymentRefundedDomainEvent::class);
     }
 
-    #[Test]
-    public function Refund_ShouldRaisePaymentPartiallyRefunded_WhenRefundPartialPrice()
+    /** @test */
+    public function refundShouldRaisePaymentPartiallyRefundedWhenRefundPartialPrice()
     {
         // Arrange
         $customer = new Customer(
@@ -97,8 +97,8 @@ class PaymentTest extends AbstractTestCase
         $this->assertDomainEventRaised($payment, PaymentPartiallyRefundedDomainEvent::class);
     }
 
-    #[Test]
-    public function Refund_ShouldFail_WhenPaymentAlreadyRefunded()
+    /** @test */
+    public function refundShouldFailWhenPaymentAlreadyRefunded()
     {
         // Arrange
         $customer = new Customer(
@@ -123,8 +123,8 @@ class PaymentTest extends AbstractTestCase
 
     }
 
-    #[Test]
-    public function Refund_ShouldFail_WhenRefundMoreThenRemains()
+    /** @test */
+    public function refundShouldFailWhenRefundMoreThenRemains()
     {
         // Arrange
         $customer = new Customer(
