@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+    tickets_php:
+        image: dzhuryn/ticketing-tickets-php:${SERVICE_TICKETS_VERSION}
+        restart: unless-stopped
+        environment:
+            DATABASE_URL: 'postgresql://db_user:db_password@database:5432/db_tickets?serverVersion=16&charset=utf8'
+            MESSENGER_DISTRIBUTED_TRANSPORT_DSN: 'amqp://user:pass@rabbitmq:5672/%2f/messages'
+    tickets_nginx:
+        image: dzhuryn/ticketing-tickets-webserver:${SERVICE_TICKETS_VERSION}
+        restart: unless-stopped
+        depends_on:
+            - tickets_php
+    tickets_jobber:
+        image: dzhuryn/ticketing-tickets-jobber:${SERVICE_TICKETS_VERSION}
+        restart: unless-stopped
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            - tickets_php
+        environment:
+            PROJECT_PREFIX: ${COMPOSE_PROJECT_NAME}

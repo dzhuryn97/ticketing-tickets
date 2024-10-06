@@ -1,0 +1,71 @@
+name: Build and push containers
+on:
+    workflow_call:
+        inputs:
+            image-tag:
+                required: true
+                type: string
+            image-php-target:
+                required: true
+                type: string
+        secrets:
+            DOCKER_USER:
+                required: true
+            DOCKER_PASSWORD:
+                required: true
+jobs:
+    build-php:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   name: Setup build
+                uses: ./.github/actions/setup-build
+                with:
+                    docker-user: ${{ secrets.DOCKER_USER }}
+                    docker-password: ${{ secrets.DOCKER_PASSWORD }}
+            -   name: Build tickets-php and push
+                uses: docker/build-push-action@v6
+                with:
+                    context: .
+                    push: true
+                    target: ${{ inputs.image-php-target }}
+                    file: docker/php/Dockerfile
+                    tags: dzhuryn/ticketing-tickets-php:${{ inputs.image-tag }}
+    build-webserver:
+        needs: build-php
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   name: Setup build
+                uses: ./.github/actions/setup-build
+                with:
+                    docker-user: ${{ secrets.DOCKER_USER }}
+                    docker-password: ${{ secrets.DOCKER_PASSWORD }}
+            -   name: Build tickets-webserver and push
+                uses: docker/build-push-action@v6
+                with:
+                    context: .
+                    push: true
+                    file: docker/nginx/Dockerfile
+                    tags: dzhuryn/ticketing-tickets-webserver:${{ inputs.image-tag }}
+                    build-args: PHP_CONTAINER=dzhuryn/ticketing-tickets-php:${{ inputs.image-tag }}
+    build-jobber:
+        needs: build-webserver
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   name: Setup build
+                uses: ./.github/actions/setup-build
+                with:
+                    docker-user: ${{ secrets.DOCKER_USER }}
+                    docker-password: ${{ secrets.DOCKER_PASSWORD }}
+            -   name: Build tickets-jobber and push
+                uses: docker/build-push-action@v6
+                with:
+                    context: .
+                    push: true
+                    file: docker/jobber/Dockerfile
+                    tags: dzhuryn/ticketing-tickets-jobber:${{ inputs.image-tag }}

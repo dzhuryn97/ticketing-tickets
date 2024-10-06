@@ -1,0 +1,38 @@
+version: '3.5'
+
+services:
+    tickets_php:
+        build:
+            context: ../tickets
+            dockerfile: ../tickets/docker/php/Dockerfile
+            target: dev
+        restart: unless-stopped
+        volumes:
+            - ../tickets/:/app
+            - ../tickets/docker/php/php.ini:/usr/local/etc/php/php.ini
+            - ../tickets/docker/php/www.conf:/usr/local/etc/php/www.conf
+    tickets_nginx:
+        build:
+            context: ../tickets
+            dockerfile: ../tickets/docker/nginx/Dockerfile
+        restart: unless-stopped
+        environment:
+            PHP_FPM_URI: 'tickets_php:9000'
+        volumes:
+            - ../tickets/:/app
+            - ../tickets/docker/nginx/templates:/etc/nginx/templates
+        depends_on:
+            - tickets_php
+    tickets_jobber:
+        build:
+            context: ../tickets
+            dockerfile: ../tickets/docker/jobber/Dockerfile
+        restart: unless-stopped
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ../tickets/docker/jobber/supervisord.conf:/etc/supervisor/supervisord.conf:ro
+            - ../tickets/docker/jobber/conf.d/:/etc/supervisor/conf.d/:ro
+        depends_on:
+            - tickets_php
+        environment:
+            PROJECT_PREFIX: ${COMPOSE_PROJECT_NAME}

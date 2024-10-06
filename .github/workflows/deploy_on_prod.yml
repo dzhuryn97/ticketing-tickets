@@ -1,0 +1,52 @@
+name: Deploy to prod env
+on:
+    push:
+        branches:
+            - main
+jobs:
+    test:
+        uses: ./.github/workflows/test.yml
+        secrets:
+            DOCKER_USER: ${{ secrets.DOCKER_USER }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    discover-tag:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+            -   uses: oprypin/find-latest-tag@v1
+                with:
+                    repository: dzhuryn97/ticketing-tickets
+                id: tag-discover
+            -   run: echo "Tag is at version ${{ steps.tag-discover.outputs.tag }}"
+        outputs:
+            tag: ${{ steps.tag-discover.outputs.tag }}
+    build:
+        needs: discover-tag
+        uses: ./.github/workflows/build.yml
+        with:
+            image-tag: ${{ needs.discover-tag.outputs.tag }}
+            image-php-target: prod
+        secrets:
+            DOCKER_USER: ${{ secrets.DOCKER_USER }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    deploy:
+        needs: [build, discover-tag]
+        runs-on: ubuntu-latest
+        steps:
+            -   name: ssh key passphrase
+                uses: appleboy/ssh-action@v1.0.3
+                with:
+                    host: ${{ secrets.SERVER_HOST }}
+                    username: ${{ secrets.SERVER_USERNAME }}
+                    key: ${{ secrets.SERVER_KEY }}
+                    debug: true
+                    script: |
+                        cd /var/www/ticketing
+                        echo "Tag ${{ needs.discover-tag.outputs.tag }}"
+                        sed -i 's/^SERVICE_TICKETS_VERSION=.*/SERVICE_TICKETS_VERSION=${{ needs.discover-tag.outputs.tag }}/' .env
+                        docker-compose pull
+                        docker-compose down gateway
+                        docker-compose up -d
+                        docker-compose exec tickets_php bin/console doctrine:migrations:migrate --no-interaction

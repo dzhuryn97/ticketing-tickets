@@ -36,7 +36,7 @@
         "symfony/twig-bundle": "7.1.*",
         "symfony/validator": "7.1.*",
         "symfony/yaml": "7.1.*",
-        "volodymyr/ticketing-common": "@dev"
+        "volodymyr/ticketing-common": "0.*"
     },
     "config": {
         "allow-plugins": {
@@ -87,13 +87,6 @@
             "require": "7.1.*"
         }
     },
-    "repositories": [{
-        "type": "path",
-        "url": "../common",
-        "options": {
-            "symclink": null
-        }
-    }],
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "fakerphp/faker": "^1.23",
