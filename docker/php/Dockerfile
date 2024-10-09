@@ -1,4 +1,9 @@
 FROM php:8.3-fpm-alpine as build
+
+RUN set -eux; \
+    apk add --no-cache --update \
+        bash
+
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod 755 /usr/local/bin/install-php-extensions
 

@@ -76,7 +76,12 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "lint": "./vendor/bin/phplint",
+        "cs-fix": "./vendor/bin/php-cs-fixer fix",
+        "cs-check": "./vendor/bin/php-cs-fixer check",
+        "test-unit": "./bin/phpunit --testsuite=unit",
+        "test-integration": "./bin/phpunit --testsuite=integration"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -93,11 +98,11 @@
         "friendsofphp/php-cs-fixer": "*",
         "justinrainbow/json-schema": "^6.0",
         "overtrue/phplint": "^9.4",
-        "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
         "symfony/maker-bundle": "^1.60",
         "symfony/phpunit-bridge": "^7.1",
+        "phpunit/phpunit": "^9.5",
         "symfony/stopwatch": "7.1.*",
         "symfony/web-profiler-bundle": "7.1.*"
     }
