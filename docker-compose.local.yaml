@@ -15,6 +15,9 @@ services:
         build:
             context: ../tickets
             dockerfile: ../tickets/docker/nginx/Dockerfile
+            target: build
+            args:
+                PHP_CONTAINER: 'blank'
         restart: unless-stopped
         environment:
             PHP_FPM_URI: 'tickets_php:9000'
