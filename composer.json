@@ -99,7 +99,6 @@
         "friendsofphp/php-cs-fixer": "*",
         "justinrainbow/json-schema": "^6.0",
         "overtrue/phplint": "^9.4",
-        "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
         "symfony/maker-bundle": "^1.60",
