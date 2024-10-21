@@ -3,6 +3,8 @@ on:
     push:
         branches:
             - main
+env:
+    PROJECT_FOLDER: /var/www/ticketing
 jobs:
     test:
         uses: ./.github/workflows/test.yml
